@@ -1,0 +1,53 @@
+<!--python+flask to file heroes.db HTML usig jinja -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Herores List</title>
+</head>
+<body>
+
+<h1 style="text-align:center;"> My Heroes List</h1>
+
+<h2 style="color:green;border-collapse:collapse">----Add New Hero----</h2>
+<form action="/add" method="POST">
+    <input type="text" name="newname" placeholder="Enter name">
+    <input type="text" name="newskill" placeholder="Enter skill">
+    <input type="number" name="newrank" placeholder="Enter rank">
+    <button type="submit" style='background-color:lightgreen;'> click here </button>
+</form>
+
+<h2 style="color:red;">--- Delete Hero ---</h2>
+<form action="/del" method="POST">
+    <input type="text" name="delname" placeholder="Enter name">
+    <!--input type="text" name="delskill" placeholder="Enter skill">
+    <input type="number" name="delrank" placeholder="Enter rank"-->
+    <button type="submit" style='background-color:lightpink;'>Delete Hero</button>
+</form>
+
+<hr>
+
+<table border="1" width="90%" >
+    <tr>
+        <th>No</th>
+        <th style='background-color:lightblue;'>Name</th>
+        <th style='background-color:lightblue;'>Skill</th>
+        <th style='background-color:lightblue;'>Rank</th>
+        <th style='background-color:lightblue;'> </th>
+    </tr>
+
+    {%for i in heroes %} <!-- jinja -->
+ 
+    <tr>
+        <td>{{loop.index}}</td>
+        <td>{{i[0]}}</td> <!--We want show existing data so usercan change it-->
+        <td>{{i[1]}}</td>
+        <td>{{i[2]}}</td>
+        <td>
+        <a href="/edit/{{i[0]}}">Edit</a> <!--Create link→/edit/hero_name-->
+        </td>
+    </tr>
+    {% endfor %} <!--jinja -->
+</table>
+
+</body>
+</html>    
