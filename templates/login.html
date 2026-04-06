@@ -1,0 +1,92 @@
+<head>
+    <meta name="viewport" content="width=device-width" initial-scale=1.0>
+
+<style>
+body{
+   background:url('static/zcon.jpg');
+   min-height:50vh;
+   display:flex;
+   background-size:cover;
+   background-position:center;
+   margin:40;
+   padding:0;
+   justify-content:center;
+   align-items-center;
+}
+   
+
+.head{
+   text-align:center;
+   text-transform:uppercase;
+   color:blackviolet;
+}
+.box{
+   background-color:transperent;;
+   text-align:center;
+   width:100%;
+   height:35vh;
+   margin:auto;
+   padding:30px;
+   border:1px solid black;
+   backdrop-filter:blur(10px);
+   border-radius:16px;
+}
+input[type="text"],
+input[type="password"] {
+   width:100%;
+   padding:12px;
+   box-shadow:0 0 4px black;
+   border-radius:30px;
+}
+button{
+   width:70%;
+   padding:15px;
+   box-shadow:0 0 3px blue;
+   border:0px solid;
+   border-radius:30px;
+   font-family:serif;
+   font-weight:600;
+   font-size:1rem;
+   outline:none;
+   color:Thistle;
+   background:linear-gradient(teal,indigo);
+}
+button:hover{
+   background:linear-gradient(violet,lightblue);
+}
+.signup{
+    text-align:center;
+    font-weight:700;
+    color:lightblack;
+}
+/* without'a'The link ignores this! */
+.signup a{  
+   font-family:sans;
+   text-decoration:none;
+   color:white;
+   font-size:12px;
+   
+}
+
+
+</style>
+</head>
+<body>
+<div class="box">
+    <div class="head">
+      <h3>Log In</h3>
+     </div>      
+     <div class="input">
+         <form method="POST">
+         <input type="text" name="login" placeholder="Username or Email" required><br><br>
+         <input type="password" name="password" placeholder="Password" required><br><br>
+     <div class="btn">
+        <button type="submit">Login</button><br><br>
+     </div>
+     <div class="signup">
+     Dont have an account?<a href="/signup">Signup</a>
+     </div>
+    </form>
+ </div>
+</div>
+</body>

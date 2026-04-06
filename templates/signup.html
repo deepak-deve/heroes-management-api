@@ -1,0 +1,51 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="{{url_for('static',filename='signup.css')}}">
+<title>Signup</title>
+</head>
+
+<body>
+<div class="box">
+ 
+        <h1>Sign Up</h1>
+   
+     <form method="POST" action="/signup">
+ 
+       <input type="text" name="username" placeholder="Username">
+ 
+       <input type="email" name="email" placeholder="Email Address">
+     
+       <input type="password" name="password" placeholder="Create password">
+     
+<!--div class="field">
+<div class="inline">
+<label>Gender</label><br>
+<label><input type="radio" name="gender" value="male">Male</label>
+<label><input type="radio" name="gender" value="female">Female</label><br>
+</div>
+</div>
+
+<div class="field">
+<div class="inline">
+<label>Skills</label><br>
+<input type="checkbox" name="skill" value="html">HTML<br>
+<input type="checkbox" name="skill" value="python">Python<br><br>
+</div>
+</div-->
+
+        <button type="submit" class="btn">sign up</button><br>
+           
+        <div class="login">
+             Already Have An Account?<a href="/login"> log In</a>  
+        </div>
+      </form>
+      
+</div>
+</body>
+
+
+</html>
+
