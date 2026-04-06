@@ -2,22 +2,24 @@
 
 #1)mysql
 #2)flask
-#3)web interface
+#3)web interface(signip/login)
 #4)API
 #5)Authentication(Reg/Log)
 
-
-from flask import Flask,request,redirect,render_template,jsonify
+from flask import Flask,request,redirect,render_template,jsonify,session
 import mysql.connector
 import bcrypt #R/L
 
 app=Flask(__name__)
 # this will store usernames who logged in
-logged_users=set()
+app.secret_key="secret123"
 
+logged_users = set()
 
 @app.route('/')
 def show():
+    if 'user'not in session:
+        return redirect("/signup")
     c=mysql.connector.connect(
         host="localhost",
         user="root",
@@ -30,6 +32,67 @@ def show():
 
     c.close()
     return render_template("index.html",heroes=row)
+
+@app.route('/signup', methods=['GET','POST'])
+def signup_page():
+    if request.method == 'POST':
+        username=request.form.get("username")
+        email=request.form.get("email")
+        password=request.form.get("password")
+
+        hashed=bcrypt.hashpw(password.encode(),bcrypt.gensalt())
+
+        c=mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="",
+            database="heroes_db")
+
+        try:
+            cursor=c.cursor()
+            cursor.execute('''INSERT INTO users(username,email,password) 
+VALUES(%s,%s,%s)''', (username,email,hashed))
+            c.commit()
+            return redirect('/')
+
+        except:
+            return "User already exists"
+
+        finally:
+            c.close()
+
+    return render_template("signup.html")
+
+@app.route('/login', methods=['GET','POST'])
+def login_page():
+    if request.method == 'POST':
+        login = request.form.get("login")
+        password = request.form.get("password")
+
+        c=mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="",
+            database="heroes_db")
+
+        cursor=c.cursor()
+
+        cursor.execute('''SELECT username,password FROM users 
+WHERE username=%s OR email=%s''', (login,login))
+        row=cursor.fetchone()
+        c.close()
+
+        if row:
+            username=row[0]
+            spw=row[1]
+
+            if bcrypt.checkpw(password.encode(), spw.encode()):
+                session['user'] = username
+                return redirect('/')
+
+        return "Login Failed"
+
+    return render_template("login.html")
 
 @app.route('/add',methods=['POST'])
 def add_hero():
@@ -86,7 +149,7 @@ def edit_hero(name): #Only for edit option
     row=cursor.fetchone()
     c.close()
 
-    return render_template("edit.html",heroes=row)
+    return render_template("eedit.html",heroes=row)
 
 @app.route('/update/', methods=['POST'])
 def update_hero():
@@ -104,11 +167,22 @@ def update_hero():
     c.commit()
     c.close()
     return redirect('/')
+@app.route('/logout')
+def logout():
+    # Remove the logged-in user from session
+    session.pop('user', None)
+    # Redirect to login page
+    return redirect('/login')
 
 #-----API-------
 @app.route('/api/heroes/')
 def api_heroes():
+    username = request.args.get("username")
 
+    # CHECK LOGIN
+    if username not in logged_users:
+        return jsonify({"Error": "login requires"})
+      
     c=mysql.connector.connect(
         host="localhost",
         user="root",
@@ -153,7 +227,7 @@ def api_search(name):
 @app.route('/api/heroes/', methods=['POST'])
 def api_add():
     username=request.json.get("username") #R/L
-    
+
     if username not in logged_users:
         return jsonify({"Error":"login required"})
 
@@ -238,7 +312,7 @@ def register():
     password=request.json.get("password")
 
     hashed=bcrypt.hashpw(password.encode(),bcrypt.gensalt())
-    
+
     c=mysql.connector.connect(
         host="localhost",
         user="root",
@@ -247,12 +321,12 @@ def register():
 
     try:
         cursor=c.cursor()
-        cursor.execute('''INSERT INTO users(username,email,password) 
+        cursor.execute('''INSERT INTO users(username,email,password)
 VALUES(%s,%s,%s)''',(username,email,hashed))
         c.commit()
 
         return jsonify({"message":"username registered successfully"})
-                
+
     except mysql.connector.IntegrityError:
        return  jsonify({"Error":"username or email already exists"})
 
@@ -274,9 +348,8 @@ def login():
     cursor=c.cursor()
 
     # search user by username OR email
-    cursor.execute(
-        "SELECT username,password FROM users WHERE username=%s OR email=%s",
-        (login,login))
+    cursor.execute('''SELECT username,password FROM users WHERE 
+username=%s OR email=%s''', (login,login))
 
     row=cursor.fetchone()
 
@@ -293,7 +366,7 @@ def login():
 
         # store logged in user
         logged_users.add(username)
-        
+
 
         return jsonify({"message":"Login successful","user":username})
 
@@ -303,7 +376,8 @@ def login():
 
 
 if __name__=='__main__':
-     app.run(debug=True)
+     app.run(host='0.0.0.0', port=6060,debug=True)
+# host='0.0.0.0' allows other devices on the same network (WiFi/LAN)
 
 
 #API test↓
@@ -319,6 +393,9 @@ curl -X POST http://127.0.0.1/api/login \
 curl -X POST http://127.0.0.1:5000/api/heroes/ \
 -H "Content-Type: application/json" \
 -d '{"username":"kdraj","name":"Invi","skill":"Invisible","rank":14}'
+curl "http://127.0.0.1:5000/api/delete/---?username= ---"
 
+open browser:-
+http://127.0.0.1:5000/api/heroes/?username=Logan
 
 '''
