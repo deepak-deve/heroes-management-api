@@ -1,0 +1,81 @@
+body{
+   background: url('zpun.jpeg') no-repeat center center fixed;
+   background-size: cover;
+   margin: 0;
+   padding: 0;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   min-height:92vh; /* Takes full height of the screen */
+   font-family:sans serif;
+}
+/* Heading */
+h1{
+   font-family:serif;
+   text-align:center;
+   color:#990000;
+   text-transform:uppercase;
+   font-size:30px;
+}
+
+/* form-box*/
+.box{
+   background-color:transparent;
+   backdrop-filter: blur(5px); /* Stronger blur for readability */
+   padding: 10px;
+   border-radius: 16px;
+   border: 1px solid navy;
+   width: 70%;
+   justify-content:center;
+   max-width:500px; /* Keeps the box from getting too wide */
+   box-shadow:0 0 50px red;
+   text-align: center
+}
+
+/* Input filds*/
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+   display:block;  /*auto box gap*/
+   width:85%;
+   padding:20px;
+   margin-bottom:20px;
+   border-radius:30px; /*Round corners*/
+   line-height:1;
+}
+
+::placeholder {
+    font-size:18px;
+}
+
+/*button*/
+.btn{
+    display:block;
+    width: 70%;
+    padding: 15px;
+    margin:auto;
+    border-radius:30px;
+    border:none ;
+    box-shadow:lightblue;
+    margin-bottom: 20px;
+    font-size:20px;
+    font-family: sans-serif;
+    background: linear-gradient(crimson,white,firebrick);
+}
+.btn:hover{
+  background: linear-gradient(red,crimson,white,firebrick,maroon);
+}
+}
+
+.login{
+    display:block;
+    text-align:center;
+    font-weight:900;
+    color:#990000,black;
+}
+.login a {
+    color: lightblue;
+    text-decoration: none;
+    font-size:18px;
+    color:light cyan;
+}
