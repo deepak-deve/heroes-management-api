@@ -1,12 +1,18 @@
 <head>
-   <meta name="viewport" content="width=device-width" intital-scale:1.0>
+   <meta name="viewport" content="width=device-width" inital-scale=1.0">
 <style>
 img{
-   width:390;
+   width:900px;
    height:100;
-   max-width:400px;
+   min-width:1000px;
 }
-
+.main{
+    background:lightgreen;
+    max-width:1000px;
+	margin:0 auto;	
+	box-shadow:0 0 20px;
+    min-height:72vh;
+}
 body{
    background:lightblue;
    margin:1;
@@ -30,7 +36,7 @@ body{
 }
 .form-box{
    background-color:lightgray;
-   width:90%;
+   width:50%;
    margin:auto;
    margin-bottom:15px;
    border:1px solid black;
@@ -74,24 +80,26 @@ input[type="number"] {
 </style>
 <title>Edit page</title> 
 </head>
-
-
-<img src="{{url_for('static',filename='Heroes.jpeg')}}" alt="My pic">
-
 <body>
-<center>
-<h1>---Edit Hero---</h1>
-<form action="/update" method="POST" class="form-box"><br>
+<div class="main">
+      <img src="{{url_for('static',filename='Heroes.jpeg')}}" alt="My pic">
 
-<label>Name:<label>
-<input type="text" name="name" value="{{heroes[0]}}"><br><br>
-<label>Skill:<label>
-<input type="text" name="skill" value="{{heroes[1]}}"><br><br>
-<label>Rank:<label>
-<input type="number" name="rank" value="{{heroes[2]}}" required><br><br>
-<button type="submit" class="btn">Update</button>
-</form>
+       
+       <center>
+       <h1>---Edit Hero---</h1>
+       <form action="/update" method="POST" class="form-box"><br>
 
+           <label>Name:<label>
+           <input type="text" name="name" value="{{heroes[0]}}"><br><br>
+           <label>Skill:<label>
+           <input type="text" name="skill" value="{{heroes[1]}}"><br><br>
+           <label>Rank:<label>
+           <input type="number" name="rank" value="{{heroes[2]}}" required><br><br>
+           <button type="submit" class="btn">Update</button>
+        </form>          
+        
+        </center>
+		 <a href="/" class="back"><-Back<a><br>
+</div>
 </body>
-</center>
-<a href="/" class="back"><-Back<a><br>
+

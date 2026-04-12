@@ -6,9 +6,20 @@
 
 body{
    margin:0;
-   overflow-x:hidden;
-   box-sizing:border-box;
+   padding:0;
 }
+.main{
+    max-width:1000px;
+	margin:0 auto;
+	background:white;
+	box-shadow:0 0 20px;
+     min-height:150vh;
+}
+.hero{
+    	width:100%;
+		height:150px;
+		display:block;
+}		
 h1{
    text-align:center;
    color:orangered;
@@ -16,7 +27,7 @@ h1{
    font-family:serif;
 }
 h2{
-   text-align:left;
+   text-align:center;
    color:green;
 }
 #d {
@@ -29,22 +40,32 @@ input[type="number"] {
     border:1.5px solid black;
    border-radius:6px;
 }
+/*input{
+    flex:1;
+	padding:12px;
+	border:1px solid black;
+	border-radius:4px;
+}*/	
 form{
-   margin:20px;
-}
+   display:flex;
+   gap:10px;
+   padding:0 10px 10px;
+}   
+   
 #btna{
    background-color:lightgreen;
-   width:15%
+   width:15%;
 }
 #btnd{
    background-color:lightpink;
-   width:15%
+   width:15%;
 }
 .table{
    border:1px solid black;
-   width:90%;
+   width:95%;
    margin:20px;
    border-collapse:collapse;
+  
 }
 .table th{
    background-color:lightblue;
@@ -62,13 +83,12 @@ form{
 nav{
     display: flex; 
     justify-content: center; 
-    align-items: center;
+    align-items: left;
     font-family: sans-serif; 
     background:linear-gradient(indigo,crimson); 
-    font-size:30px; 
-    padding: 10px; 
-    margin: 40px auto;
-    width:20%;
+    font-size:15px; 
+    padding: 10px;     
+    width:10%;
     border-radius:20px
 }
 nav a{
@@ -77,57 +97,61 @@ nav a{
 }
 
 </style>
+          
 
     <title>My Herores</title>
 </head>
 <body>
-<img src="{{url_for('static',filename='Heroes.jpeg')}}" width="980" 
-            height="200" alt="My pic">
-<h1> My Heroes List</h1>
+   <div class="main">
+       <img src="{{url_for('static',filename='Heroes.jpeg')}}" class="hero" alt="My pic">
+        <nav>
+              <a href="/logout">Logout</a>
+        </nav>
 
-<h2>----Add New Hero----</h2>
-<form action="/add" method="POST">
-    <input type="text" name="newname" placeholder="Enter name">
-    <input type="text" name="newskill" placeholder="Enter skill">
-    <input type="number" name="newrank" placeholder="Enter rank">
-    <button type="submit" id="btna"> click here </button>
-</form>
+	  <h1> My Heroes List</h1>
 
-<h2 id="d">--- Delete Hero ---</h2>
-<form action="/del" method="POST">
-    <input type="text" name="delname" placeholder="Enter name">
-    <input type="text" name="delskill" placeholder="Enter skill">
-    <!--input type="number" name="delrank" placeholder="Enter rank"-->
-    <button type="submit" id="btnd">Delete Hero</button>
-</form>
+       <h2>----Add New Hero----</h2>
+       <form action="/add" method="POST">
+         <input type="text" name="newname" placeholder="Enter name" required>
+         <input type="text" name="newskill" placeholder="Enter skill" required>
+         <input type="number" name="newrank" placeholder="Enter rank" required>
+         <button type="submit" id="btna"> click here </button>
+       </form>
 
-<hr>
+       <h2 id="d">--- Delete Hero ---</h2>
+       <form action="/del" method="POST">
+          <input type="text" name="delname" placeholder="Enter name" required>
+          <input type="text" name="delskill" placeholder="Enter skill" required>
+          <!--input type="number" name="delrank" placeholder="Enter rank"-->
+          <button type="submit" id="btnd">Delete Hero</button>
+        </form>
 
-<table class="table">
-    <tr>
-        <th>No</th>
-        <th>Name</th>
-        <th>Skill</th>
-        <th>Rank</th>
-        <th> </th>
-    </tr>
+        <hr>
 
-    {%for i in heroes %} <!-- jinja -->
+        <table class="table">
+           <tr>
+               <th>No</th>
+               <th>Name</th>
+               <th>Skill</th>
+               <th>Rank</th>
+                <th> </th>
+            </tr>
+
+            {%for i in heroes %} <!-- jinja -->
  
-    <tr>
-        <td>{{loop.index}}</td>
-        <td>{{i[0]}}</td> <!--We want show existing data so usercan change it-->
-        <td>{{i[1]}}</td>
-        <td>{{i[2]}}</td>
-        <td>
-        <a href="/edit/{{i[0]}}">Edit</a> <!--Create link→/edit/hero_name-->
-        </td>
-    </tr>
-    {% endfor %} <!--jinja -->
-</table>
-<nav>
-    <a href="/logout">Logout</a>
-</nav>
+            <tr>
+                <td>{{loop.index}}</td>
+                <td>{{i[0]}}</td> <!--We want show existing data so usercan change it-->
+                <td>{{i[1]}}</td>
+                <td>{{i[2]}}</td>
+                <td>
+                    <a href="/edit/{{i[0]}}">Edit</a> <!--Create link→/edit/hero_name-->
+                </td>
+                </tr>
+                {% endfor %} <!--jinja -->
+        </table>
+        
+    </div>
 </body>
 </html>    
 
